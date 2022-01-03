@@ -3,8 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const Navigation = () => {
+  const { user } = useAuthContext();
+
   return (
     <Navbar bg="dark" variant="dark" expand="md">
       <Container>
@@ -19,12 +22,22 @@ const Navigation = () => {
               Homepage
             </NavLink>
 
-            <NavLink to="/login" className="nav-link">
-              Login
-            </NavLink>
-            <NavLink to="/signup" className="nav-link">
-              Signup
-            </NavLink>
+            {user ? (
+              <>
+                <NavLink to="/logout" className="nav-link">
+                  Logout
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/login" className="nav-link">
+                  Login
+                </NavLink>
+                <NavLink to="/signup" className="nav-link">
+                  Signup
+                </NavLink>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
