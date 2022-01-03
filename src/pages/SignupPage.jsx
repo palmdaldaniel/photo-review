@@ -1,48 +1,37 @@
-import { setPersistence } from "firebase/auth";
 import { useRef, useState } from "react";
-import { Form, Container, Button } from "react-bootstrap";
-
-import { useAuthContext } from "../contexts/AuthContext";
+import { Form, Container, Button, Alert } from "react-bootstrap";
+import useRegisterUser from "../hooks/useRegisterUser";
 
 const LoginPage = () => {
- const [isLoading, setIsLoading] = useState(false)
-  const { register } = useAuthContext();
-
   const [displayPassword, setDisplayPassword] = useState(false);
   const emailRef = useRef();
   const pwRef = useRef();
   const confirmPwRef = useRef();
 
-  const handleSubmit = (e) => {
+  const registerUser = useRegisterUser();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsLoading(true)
+    // try to register a user.
+    await registerUser.createUser(
+      emailRef.current.value,
+      pwRef.current.value,
+      confirmPwRef.current.value
+    );
 
 
-    if (pwRef.current.value !== confirmPwRef.current.value) {
-      setIsLoading(false)
-     
-      return;
-    }
-
-
-    try {
-      register(emailRef.current.value, pwRef.current.value);
-      setIsLoading(false)
-    
-    } catch (error) {
-      console.log("something went fucking wrong");
-      setIsLoading(false)
-    }
-
-    emailRef.current.value = "";
-    pwRef.current.value = "";
-    confirmPwRef.current.value = '';
   };
 
   return (
     <Container>
       <h3 className="py-3">Register to start using Photo Reviewer</h3>
+
+      {registerUser.errorMessage && (
+        <Alert variant="warning">
+          {registerUser.errorMessage}
+        </Alert>
+      )}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -73,7 +62,11 @@ const LoginPage = () => {
             label="Show password"
           />
         </Form.Group>
-        <Button disabled={isLoading} variant="primary" type="submit">
+        <Button
+          disabled={registerUser.isLoading}
+          variant="primary"
+          type="submit"
+        >
           Submit
         </Button>
       </Form>
