@@ -1,7 +1,13 @@
+import { setPersistence } from "firebase/auth";
 import { useRef, useState } from "react";
 import { Form, Container, Button } from "react-bootstrap";
 
+import { useAuthContext } from "../contexts/AuthContext";
+
 const LoginPage = () => {
+ const [isLoading, setIsLoading] = useState(false)
+  const { register } = useAuthContext();
+
   const [displayPassword, setDisplayPassword] = useState(false);
   const emailRef = useRef();
   const pwRef = useRef();
@@ -10,9 +16,28 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("email", emailRef.current.value);
-    console.log("pw", pwRef.current.value);
-    console.log("confirm pw", confirmPwRef.current.value);
+    setIsLoading(true)
+
+
+    if (pwRef.current.value !== confirmPwRef.current.value) {
+      setIsLoading(false)
+     
+      return;
+    }
+
+
+    try {
+      register(emailRef.current.value, pwRef.current.value);
+      setIsLoading(false)
+    
+    } catch (error) {
+      console.log("something went fucking wrong");
+      setIsLoading(false)
+    }
+
+    emailRef.current.value = "";
+    pwRef.current.value = "";
+    confirmPwRef.current.value = '';
   };
 
   return (
@@ -48,7 +73,7 @@ const LoginPage = () => {
             label="Show password"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button disabled={isLoading} variant="primary" type="submit">
           Submit
         </Button>
       </Form>
