@@ -1,18 +1,19 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 
-//components
-import IsProtected from "./components/IsProtected";
+//partial
+import Navigation from "./pages/partials/Navigation";
 
 //pages
 import HomePage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
 import LogoutPage from "./pages/LogoutPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import SignupPage from "./pages/SignupPage";
+import UploadFilesPage from "./pages/UploadFilesPage";
 
-//partial
-import Navigation from "./pages/partials/Navigation";
+//components
+import IsProtected from "./components/IsProtected";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
             </IsProtected>
           }
         />
-
+        <Route path="/upload-files" element={<UploadFilesPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/logout" element={<LogoutPage />} />
