@@ -19,8 +19,6 @@ const LoginPage = () => {
       pwRef.current.value,
       confirmPwRef.current.value
     );
-
-
   };
 
   return (
@@ -28,9 +26,7 @@ const LoginPage = () => {
       <h3 className="py-3">Register to start using Photo Reviewer</h3>
 
       {registerUser.errorMessage && (
-        <Alert variant="warning">
-          {registerUser.errorMessage}
-        </Alert>
+        <Alert variant="warning">{registerUser.errorMessage}</Alert>
       )}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
