@@ -1,6 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 
+
+
+
 //partial
 import Navigation from "./pages/partials/Navigation";
 
@@ -14,6 +17,7 @@ import UploadFilesPage from "./pages/UploadFilesPage";
 
 //components
 import IsProtected from "./components/IsProtected";
+
 
 function App() {
   return (

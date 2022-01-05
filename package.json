@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@react-query-firebase/auth": "^0.3.4",
+    "@react-query-firebase/firestore": "^0.4.2",
     "bootstrap": "^5.1.3",
     "firebase": "^9.6.1",
     "react": "^17.0.2",

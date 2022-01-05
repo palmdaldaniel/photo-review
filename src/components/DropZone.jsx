@@ -34,7 +34,7 @@ const Dropzone = () => {
   );
 
   return (
-    <div {...getRootProps({ style })}>
+    <div {...getRootProps({ style })} className="my-3">
       <input {...getInputProps()} />
       {isDragActive ? (
         <p>Drop the files here ...</p>
