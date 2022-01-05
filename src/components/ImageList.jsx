@@ -1,6 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 import ImageCard from "../components/ImageCard";
-
+import { SRLWrapper } from 'simple-react-lightbox'
 
 const ImageList = ({ isLoading, isError, data }) => {
   if (isLoading) return <h1>Loding ...</h1>;
@@ -8,6 +8,7 @@ const ImageList = ({ isLoading, isError, data }) => {
 
   return (
     <div className="mx-auto">
+      <SRLWrapper>
       <Row>
         {data &&
           data.map((item, i) => {
@@ -18,6 +19,7 @@ const ImageList = ({ isLoading, isError, data }) => {
             );
           })}
       </Row>
+      </SRLWrapper>
     </div>
   );
 };

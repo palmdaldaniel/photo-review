@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import SimpleReactLightbox from "simple-react-lightbox";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -25,7 +26,9 @@ ReactDOM.render(
       {/* Provide the client to your App */}
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
-          <App />
+          <SimpleReactLightbox>
+            <App />
+          </SimpleReactLightbox>
         </AuthContextProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
