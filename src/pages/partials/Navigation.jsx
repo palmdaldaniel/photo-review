@@ -18,10 +18,6 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <NavLink to="/" className="nav-link">
-              Homepage
-            </NavLink>
-
             {user ? (
               <>
                 <NavLink to="/logout" className="nav-link">
@@ -29,14 +25,9 @@ const Navigation = () => {
                 </NavLink>
               </>
             ) : (
-              <>
-                <NavLink to="/login" className="nav-link">
-                  Login
-                </NavLink>
-                <NavLink to="/signup" className="nav-link">
-                  Signup
-                </NavLink>
-              </>
+              <NavLink to="/login" className="nav-link">
+                Login
+              </NavLink>
             )}
           </Nav>
         </Navbar.Collapse>
