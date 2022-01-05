@@ -1,13 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 
-
-
-
 //partial
 import Navigation from "./pages/partials/Navigation";
 
 //pages
+import AlbumPage from "./pages/AlbumPage";
 import HomePage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
@@ -36,6 +34,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/logout" element={<LogoutPage />} />
+        <Route path="/albums/:albumId" element={<AlbumPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>

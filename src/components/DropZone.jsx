@@ -9,10 +9,10 @@ import {
 
 import useUploadFiles from "../hooks/useUploadFiles";
 
-const Dropzone = () => {
+const Dropzone = ({albumId}) => {
   const fileUploader = useUploadFiles();
   const onDrop = useCallback((acceptedFiles) => {
-    fileUploader.upload(acceptedFiles);
+    fileUploader.upload(acceptedFiles, albumId);
   }, []);
 
   const {
@@ -34,14 +34,16 @@ const Dropzone = () => {
   );
 
   return (
-    <div {...getRootProps({ style })} className="my-3">
-      <input {...getInputProps()} />
-      {isDragActive ? (
-        <p>Drop the files here ...</p>
-      ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      )}
-    </div>
+    <>
+      <div {...getRootProps({ style })} className="my-3">
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop the files here ...</p>
+        ) : (
+          <p>Drag 'n' drop some files here, or click to select files</p>
+        )}
+      </div>
+    </>
   );
 };
 

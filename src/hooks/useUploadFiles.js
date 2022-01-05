@@ -11,7 +11,7 @@ const useUploadFiles = () => {
 
   const { user } = useAuthContext()
   
-  const upload = (images = null) => {
+  const upload = (images = null, albumId) => {
     if (!images) return;
 
     images.forEach((image) => {
@@ -47,6 +47,7 @@ const useUploadFiles = () => {
 
           // a document is created in the db
           await addDoc(collectionRef, {
+            albumId,
             name: image.name,
             path: fileRef.fullPath,
             size: image.size,

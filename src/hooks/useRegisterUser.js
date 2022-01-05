@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-// need to create a collection with user credentials
-
 const useRegisterUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);

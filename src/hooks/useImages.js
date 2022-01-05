@@ -3,15 +3,18 @@ import { collection, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 
-const useImages = () => {
+const useImages = (albumId = null) => {
+
+
+  
   // get user cred.
   const { user } = useAuthContext();
 
   const imageColRef = collection(db, "images");
 
-  const queryKey = ["images", user.uid];
+  const queryKey = ["images", albumId];
 
-  const queryRef = query(imageColRef, where("owner", "==", user.uid));
+  const queryRef =   query(imageColRef, where("albumId", "==", albumId));
 
   return useFirestoreQueryData(
     queryKey,

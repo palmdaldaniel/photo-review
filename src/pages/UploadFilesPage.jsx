@@ -1,16 +1,6 @@
-/**
- *  Dropzone component - upload several images x
- *  ImageList component x
- *  Only display the current users images 
- *
- *
- * Press Review album and naviate user to album specific page takes you to the albums page
- *
- */
-
 import { Container, Button } from "react-bootstrap";
 
-//
+// Components
 import Dropzone from "../components/DropZone";
 import ImageList from "../components/ImageList";
 
