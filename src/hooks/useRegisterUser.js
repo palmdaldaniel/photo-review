@@ -2,15 +2,18 @@ import { useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+// need to create a collection with user credentials
+
 const useRegisterUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const navigate = useNavigate()
-  const { register } = useAuthContext();
+  const navigate = useNavigate();
+  const { register, user } = useAuthContext();
+
+  console.log(user?.uid);
 
   const createUser = async (email, password, confirmPassword) => {
-   
     if (password !== confirmPassword) {
       setErrorMessage("Passwords does not match");
       return;
@@ -19,8 +22,9 @@ const useRegisterUser = () => {
     try {
       setIsLoading(true);
       await register(email, password);
+
       // when registration is successfull navigate to homepage view
-      navigate('/')
+      navigate("/");
     } catch (error) {
       setErrorMessage(error.message);
       setIsLoading(false);

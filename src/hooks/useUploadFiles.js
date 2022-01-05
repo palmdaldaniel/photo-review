@@ -4,10 +4,13 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { collection, addDoc } from "firebase/firestore";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const useUploadFiles = () => {
   const [message, setMessage] = useState(null);
 
+  const { user } = useAuthContext()
+  
   const upload = (images = null) => {
     if (!images) return;
 
@@ -48,6 +51,7 @@ const useUploadFiles = () => {
             path: fileRef.fullPath,
             size: image.size,
             type: image.type,
+            owner: user.uid,
             ext,
             url,
             uuid,

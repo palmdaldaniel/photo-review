@@ -1,7 +1,6 @@
 import { Card, Button } from "react-bootstrap";
 
 const ImageCard = ({ item }) => {
-  console.log(item);
 
   return (
     <Card style={{ width: "100%" }} className="my-1">

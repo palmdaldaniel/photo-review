@@ -19,8 +19,6 @@ const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log(user);
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user);
