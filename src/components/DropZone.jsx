@@ -12,10 +12,7 @@ import useUploadFiles from "../hooks/useUploadFiles";
 const Dropzone = () => {
   const fileUploader = useUploadFiles();
   const onDrop = useCallback((acceptedFiles) => {
-
-    const image = acceptedFiles[0]
-
-    fileUploader.upload(image);
+    fileUploader.upload(acceptedFiles);
   }, []);
 
   const {
