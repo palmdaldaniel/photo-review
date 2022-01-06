@@ -1,6 +1,6 @@
 import { Modal, Button, Form } from "react-bootstrap";
 
-const InputModal = ({ show, handleClose, handleSubmit, setInput }) => {
+const InputModal = ({ show, handleClose, handleSubmit, setInput, input }) => {
   return (
     <>
       <Modal
@@ -15,6 +15,7 @@ const InputModal = ({ show, handleClose, handleSubmit, setInput }) => {
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
             <Form.Control
+              value={input}
               onChange={(e) => setInput(e.target.value)}
               required
               type="text"

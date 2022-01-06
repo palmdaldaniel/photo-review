@@ -4,6 +4,8 @@ import {
   serverTimestamp,
   query,
   where,
+  doc,
+  updateDoc
 } from "firebase/firestore";
 import { useFirestoreQueryData } from "@react-query-firebase/firestore";
 import { db } from "../firebase";
@@ -11,7 +13,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
-const useAlbum = (params = {}) => {
+const       useAlbum = (params = {}) => {
 
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -60,7 +62,25 @@ const useAlbum = (params = {}) => {
     }
   };
 
-  return { createAlbum, albumQuery };
+  const editAlbum = async (albumName, albumId) => {
+
+
+
+    const albumRef = doc(db, "albums", albumId);
+
+    try {
+      await updateDoc(albumRef, {
+        albumName
+      })
+    
+    } catch (error) {
+      console.log(error.message)  
+    }
+
+
+  }
+
+  return { createAlbum, albumQuery, editAlbum };
 };
 
 export default useAlbum;
