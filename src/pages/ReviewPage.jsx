@@ -7,6 +7,7 @@ import Selecter from "../components/Selecter";
 
 const ReviewPage = () => {
   const { pathname } = useLocation();
+  
 
   const { albumId } = useParams();
 

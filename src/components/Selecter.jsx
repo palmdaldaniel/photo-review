@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
+import usePreview from "../hooks/usePreview.js";
+import { updateImage } from '../utils/helpers.js'
 
 const Selector = ({ data }) => {
   const [index, setIndex] = useState(0);
@@ -7,8 +9,11 @@ const Selector = ({ data }) => {
   const [isSelected, setIsSelected] = useState(false);
   const [total, setTotal] = useState(0);
 
+  const {createAlbum} = usePreview()
+
   useEffect(() => {
     if (selected) {
+
       const totVal = selected.filter((item) => item.liked === true).length;
 
       setTotal(totVal);
@@ -35,16 +40,19 @@ const Selector = ({ data }) => {
   };
 
   const editImage = (params) => {
-    const index = selected.findIndex(
-      (image) => image.image.uuid === params.image.uuid
-    );
 
-    const moddarr = selected;
+    const modifiedArray = updateImage(selected, params)
 
-    moddarr.splice(index, 1, { image: params.image, liked: params.liked });
-
-    setSelected([...moddarr]);
+    setSelected([...modifiedArray]);
   };
+
+  const reviewFinished = () => {
+
+
+    const imageToKeep  = selected.filter(item => item.liked === true)
+
+    createAlbum(data[0].owner, imageToKeep)
+  }
 
   return (
     <Container>
@@ -83,7 +91,7 @@ const Selector = ({ data }) => {
               </Button>
             </div>
           ) : (
-            <Button variant="success">Finished Reviewing</Button>
+            <Button onClick={reviewFinished} variant="success">Finished Reviewing</Button>
           )}
         </>
       )}
