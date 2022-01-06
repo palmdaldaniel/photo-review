@@ -18,14 +18,14 @@ const useAlbum = (params = {}) => {
 
   const albumColRef = collection(db, "albums");
 
-  const queryKey = params.onAlbumPage
+  const queryKey = params.isSingleAlbum
     ? ["album", params.albumId]
     : ["albums", user.uid];
 
-  const queryRef = params.onAlbumPage
+  const queryRef = params.isSingleAlbum
     ? // gets single album
       query(albumColRef, where("albumId", "==", params.albumId))
-    : // gets all albums
+    : // gets all albums for specific owner
       query(albumColRef, where("owner", "==", user.uid));
 
   const albumQuery = useFirestoreQueryData(

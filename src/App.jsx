@@ -10,8 +10,8 @@ import HomePage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ReviewPage from "./pages/ReviewPage";
 import SignupPage from "./pages/SignupPage";
-import UploadFilesPage from "./pages/UploadFilesPage";
 
 //components
 import IsProtected from "./components/IsProtected";
@@ -41,6 +41,7 @@ function App() {
             </IsProtected>
           }
         />
+        <Route path="/preview/:albumId"  element={<ReviewPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
