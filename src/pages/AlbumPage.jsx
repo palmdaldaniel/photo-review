@@ -11,6 +11,7 @@ import Dropzone from "../components/DropZone";
 
 import UrlModal from "../components/UrlModal";
 import { useState } from "react";
+import Selecter from "../components/Selecter";
 
 const AlbumPage = () => {
   const [show, setShow] = useState(false);
@@ -43,6 +44,8 @@ const AlbumPage = () => {
         <Dropzone albumId={albumId} />
       </>
       <ImageList {...images} />
+
+      <Selecter data={images.data} />
     </Container>
   );
 };
