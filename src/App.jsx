@@ -16,7 +16,6 @@ import UploadFilesPage from "./pages/UploadFilesPage";
 //components
 import IsProtected from "./components/IsProtected";
 
-
 function App() {
   return (
     <>
@@ -30,11 +29,18 @@ function App() {
             </IsProtected>
           }
         />
-        <Route path="/upload-files" element={<UploadFilesPage />} />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/logout" element={<LogoutPage />} />
-        <Route path="/albums/:albumId" element={<AlbumPage />} />
+        <Route
+          path="/albums/:albumId"
+          element={
+            <IsProtected redirectTo="/login">
+              <AlbumPage />
+            </IsProtected>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
