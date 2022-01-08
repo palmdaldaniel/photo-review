@@ -99,6 +99,8 @@ const Selector = ({ data }) => {
       <div>
         <ul>
           {selected?.map((item, i) => {
+          const textColor = item.liked ? "green" : "red"
+            
             return (
               <li
                 onClick={() =>
@@ -109,7 +111,7 @@ const Selector = ({ data }) => {
                   })
                 }
                 key={i}
-                style={{ color: item.liked ? "green" : "red" }}
+                style={{ color: textColor }}
               >
                 {item.image.uuid}
               </li>

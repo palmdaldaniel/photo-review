@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
   const [show, setShow] = useState(false);
   const [input, setInput] = useState("");
-  const [albumId, setAlbumId] = useState(null)
+  const [albumId, setAlbumId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const { user } = useAuthContext();
@@ -25,28 +25,23 @@ const HomePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(isEditing) {
-
-      console.log('go ahead and edit');
-      editAlbum(input.trim(), albumId)
+    if (isEditing) {
+      console.log("go ahead and edit");
+      editAlbum(input.trim(), albumId);
       setIsEditing(false);
-      setAlbumId(null)
-      handleClose()
-      return
+      setAlbumId(null);
+      handleClose();
+      return;
     }
 
-    console.log('go ahead and create a new album');
+    console.log("go ahead and create a new album");
 
-    //createAlbum(input.trim().replaceAll(" ", "-"));
-
-  
-
-    
+    createAlbum(input.trim().replaceAll(" ", "-"));
   };
 
   const editName = (item) => {
-    setAlbumId(item._id)
-    
+    setAlbumId(item._id);
+
     // prep modal with album name
     setInput(item.albumName);
 

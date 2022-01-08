@@ -55,6 +55,8 @@ const       useAlbum = (params = {}) => {
         owner: user.uid,
       });
 
+      console.log('i am here')
+
       // when all is good and well
       navigate(`/albums/${uuid}`);
     } catch (error) {
