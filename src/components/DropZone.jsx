@@ -8,8 +8,11 @@ import {
 } from "../utils/DropZoneStyles";
 
 import useUploadFiles from "../hooks/useUploadFiles";
+import { ProgressBar } from "react-bootstrap";
 
-const Dropzone = ({albumId}) => {
+
+
+const Dropzone = ({ albumId }) => {
   const fileUploader = useUploadFiles();
   const onDrop = useCallback((acceptedFiles) => {
     fileUploader.upload(acceptedFiles, albumId);
@@ -43,7 +46,19 @@ const Dropzone = ({albumId}) => {
           <p>Drag 'n' drop some files here, or click to select files</p>
         )}
       </div>
-      <p>{fileUploader.progress}</p>
+      {fileUploader.progressArray &&
+        fileUploader.progressArray.map((item, i) => {
+
+  
+          return (
+            <ProgressBar
+              key={i}
+              striped
+              variant={item.variant}
+              now={item.progress}
+            />
+          );
+        })}
     </>
   );
 };
