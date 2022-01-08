@@ -43,6 +43,7 @@ const Dropzone = ({albumId}) => {
           <p>Drag 'n' drop some files here, or click to select files</p>
         )}
       </div>
+      <p>{fileUploader.progress}</p>
     </>
   );
 };

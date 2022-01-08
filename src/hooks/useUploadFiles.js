@@ -8,13 +8,25 @@ import { useAuthContext } from "../contexts/AuthContext";
 
 const useUploadFiles = () => {
   const [message, setMessage] = useState(null);
+  const [progress, setProgress] = useState(0);
 
-  const { user } = useAuthContext()
-  
+  const { user } = useAuthContext();
+
   const upload = (images = null, albumId) => {
     if (!images) return;
 
-    images.forEach((image) => {
+    const numberOfImages = images.length;
+    let progressArray = [];
+
+    for (let i = 0; i < numberOfImages; i++) {
+      progressArray.push({
+        progress: 0,
+      });
+    }
+
+  console.log(progressArray)
+
+    images.forEach((image, i) => {
       const uuid = uuidv4();
 
       // find file extension
@@ -29,7 +41,11 @@ const useUploadFiles = () => {
       fileUploadTask.on(
         "state_changed",
         (snapshot) => {
-          console.log("this is the snapshot", snapshot);
+          console.log("this is the snapshot of", i, snapshot);
+
+          const result =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(result);
         },
         (error) => {
           console.log(error.message);
@@ -65,7 +81,7 @@ const useUploadFiles = () => {
       );
     });
   };
-  return { upload, message };
+  return { upload, message, progress };
 };
 
 export default useUploadFiles;

@@ -12,7 +12,7 @@ const HomePage = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const { user } = useAuthContext();
-  const { createAlbum, albumQuery, editAlbum } = useAlbum();
+  const { createAlbum, albumQuery, editAlbum, deleteAlbumById } = useAlbum();
 
   console.log(albumQuery?.data);
 
@@ -52,6 +52,18 @@ const HomePage = () => {
     handleShow();
   };
 
+
+
+  const deleteAlbum = (item) => {
+
+    deleteAlbumById(item)
+
+    
+  }
+
+
+
+
   return (
     <>
       <Container>
@@ -77,6 +89,13 @@ const HomePage = () => {
                     className="m-3"
                   >
                     Edit me
+                  </span>
+                  <span
+                    onClick={() => deleteAlbum(item)}
+                    style={{ cursor: "pointer", textDecoration: "underline" }}
+                    className="m-3"
+                  >
+                    DeleteMe
                   </span>
                 </li>
               );

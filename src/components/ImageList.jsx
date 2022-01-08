@@ -19,11 +19,13 @@ const ImageList = ({ isLoading, isError, data, isThumbnail, handleClick }) => {
                     <ThumbNail key={item._id} item={item} />
                   ) : (
                     <div>
-                    <ImageCard
-                      item={item}
-                      key={item._id}
-                    />
-                    <Button variant="danger" onClick={() => handleClick(item._id, item.path)}>Delete</Button>
+                      <ImageCard item={item} key={item._id} />
+                      <Button
+                        variant="danger"
+                        onClick={() => handleClick(item._id, item.path)}
+                      >
+                        Delete
+                      </Button>
                     </div>
                   )}
                 </Col>

@@ -5,16 +5,19 @@ import {
   query,
   where,
   doc,
-  updateDoc
+  updateDoc,
+  getDocs,
+  deleteDoc,
 } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
 import { useFirestoreQueryData } from "@react-query-firebase/firestore";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
-const       useAlbum = (params = {}) => {
 
+const useAlbum = (params = {}) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -55,7 +58,7 @@ const       useAlbum = (params = {}) => {
         owner: user.uid,
       });
 
-      console.log('i am here')
+      console.log("i am here");
 
       // when all is good and well
       navigate(`/albums/${uuid}`);
@@ -65,24 +68,124 @@ const       useAlbum = (params = {}) => {
   };
 
   const editAlbum = async (albumName, albumId) => {
-
-
-
     const albumRef = doc(db, "albums", albumId);
-
     try {
       await updateDoc(albumRef, {
-        albumName
-      })
-    
+        albumName,
+      });
     } catch (error) {
-      console.log(error.message)  
+      console.log(error.message);
     }
+  };
+
+  // Step 1: Simplest version - but no they stay in the image bucket.
+  // 1. Recieve albumId
+  // 2. Find all Images with that album id
+  // 3. Remove album from col
+  // 4. remove image documents with that specific album id
+  // recieve albumId
+  // query all images +
+
+  // Stepp 2: Remove images from bucket if no other album is using it.
+  // 1. Find all images with that albumId x
+  // 2. For every images make a query to see if it exist in another album x
+  // 3. If so don't remove image. x
+  // 4. If not remove the image from the bucket. x
+
+  const deleteAlbumById = async ({ albumId, _id }) => {
+    // another functino
+    deleteAlbumDocAndImages(_id, albumId);
+
+    return;
+
+    // make into one function
+    const ref = collection(db, "images");
+    const queryRef = query(ref);
+    const qS = await getDocs(queryRef);
+
+    qS.forEach((doc) => {
+      const document = doc.data();
+      const res = findAlbums(document.path);
+      // resolve promise from find albums page.
+      res.then((item) => {
+        if (item.length > 1) {
+          console.log("more albums uses this images", item);
+          return;
+        }
+
+        deleteImageFromBucket(item[0].path);
+
+        console.log("fire delete functino for bucket");
+      });
+    });
+  };
+
+  // function for removing albums col and images attached to it.
+
+  const deleteAlbumDocAndImages = async (documentId, albumId) => {
+    console.log("documentId", documentId);
+    console.log("albumId", albumId);
+    // get rid of album doc
+
+     try {
+      await deleteDoc(doc(db, "albums", documentId));
+      console.log("profit, deleted document with id:>>", documentId);
+    } catch (error) {
+      console.log("error", error.message);
+    }
+ 
+    // get rid of every image attached to that doc
+
+    const anotherRef = collection(db, "images");
+    const anotherQueryRef = query(anotherRef, where("albumId", "==", albumId));
+    const mathingImages = await getDocs(anotherQueryRef);
+
+    mathingImages.forEach((doc) => {
+      deleteSingleImageDocument(doc.id);
+    });
+  };
+
+  const deleteSingleImageDocument = async (id) => {
 
 
-  }
+    try {
+      await deleteDoc(doc(db, "images", id));
 
-  return { createAlbum, albumQuery, editAlbum };
+      console.log("profit, deleted document with id:>>", id);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const findAlbums = async (path) => {
+    const arr = [];
+
+    const anotherRef = collection(db, "images");
+    const anotherQueryRef = query(anotherRef, where("path", "==", path));
+    const mathingImages = await getDocs(anotherQueryRef);
+
+    mathingImages.forEach((doc) => {
+      arr.push(doc.data());
+    });
+
+    return arr;
+  };
+
+  const deleteImageFromBucket = async (path) => {
+    console.log("lets go a head and delete");
+
+    const imageRef = ref(storage, path);
+
+    try {
+      await deleteObject(imageRef);
+
+      console.log("profit, image deleted with path ::>", path);
+    } catch (error) {
+      console.log("error", error.message);
+    }
+  };
+
+  return { createAlbum, albumQuery, editAlbum, deleteAlbumById };
 };
 
 export default useAlbum;

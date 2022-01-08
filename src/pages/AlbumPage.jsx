@@ -50,7 +50,7 @@ const AlbumPage = () => {
       </>
       <ImageList handleClick={deleteImage} {...images} />
 
-      <Selecter data={images.data} />
+  {/*   <Selecter data={images.data} />  */}
     </Container>
   );
 };

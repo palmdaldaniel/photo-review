@@ -21,18 +21,8 @@ import { storage, db } from "../firebase";
 
 const useImage = () => {
   const deleteDocument = async (id, path) => {
-    /**
-     * query on images and find documents using the same pathname
-     *  when there is more than run the delete function for storagen
-     */
-
-
-    console.log(path)
-
     const imagesColRef = collection(db, "images");
-
     const queryRef = query(imagesColRef, where("path", "==", path));
-
     const querySnapshot = await getDocs(queryRef);
 
     let arr = [];
