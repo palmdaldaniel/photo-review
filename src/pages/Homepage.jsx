@@ -3,66 +3,27 @@ import { Container, Button } from "react-bootstrap";
 import { useAuthContext } from "../contexts/AuthContext";
 import InputModal from "../components/InputModal";
 import useAlbum from "../hooks/useAlbum";
-import { Link } from "react-router-dom";
+import AlbumsList from "../components/AlbumsList";
+import useModal from "../hooks/useModal";
+
+
 
 const HomePage = () => {
-  const [show, setShow] = useState(false);
   const [input, setInput] = useState("");
-  const [albumId, setAlbumId] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+
+  const [openModal, closeModal, show] = useModal();
 
   const { user } = useAuthContext();
-  const { createAlbum, albumQuery, editAlbum, deleteAlbumById } = useAlbum();
 
-  console.log(albumQuery?.data);
-
-  const handleClose = () => {
-    setShow(false);
-    setInput("");
-  };
-  const handleShow = () => setShow(true);
+  const { createAlbum, albumQuery } = useAlbum();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (isEditing) {
-      console.log("go ahead and edit");
-      editAlbum(input.trim(), albumId);
-      setIsEditing(false);
-      setAlbumId(null);
-      handleClose();
-      return;
-    }
-
-    console.log("go ahead and create a new album");
-
-    createAlbum(input.trim().replaceAll(" ", "-"));
+    createAlbum(input.trim);
   };
 
-  const editName = (item) => {
-    setAlbumId(item._id);
-
-    // prep modal with album name
-    setInput(item.albumName);
-
-    // enter editing mode
-    setIsEditing(true);
-
-    // open den modal
-    handleShow();
-  };
-
-
-
-  const deleteAlbum = (item) => {
-
-    deleteAlbumById(item)
-
-    
-  }
-
-
-
+  if (albumQuery.isLoading) return <h3>Loading ...</h3>;
+  if (albumQuery.isError) return <h3>Something went wrong</h3>;
 
   return (
     <>
@@ -70,42 +31,23 @@ const HomePage = () => {
         <h1 className="my-3">
           Welcome <span>{user?.email}</span>
         </h1>
-        <Button onClick={handleShow} variant="success">
+        <Button onClick={openModal} variant="success">
           Create New Album
         </Button>
 
-        <h3 className="my-3">Your Albums</h3>
-
-        {albumQuery.isLoading && <h1>Loading ...</h1>}
-        <ul>
-          {albumQuery.data &&
-            albumQuery.data.map((item, i) => {
-              return (
-                <li key={i}>
-                  <Link to={`/albums/${item.albumId}`}>{item.albumName}</Link>
-                  <span
-                    onClick={() => editName(item)}
-                    style={{ cursor: "pointer", textDecoration: "underline" }}
-                    className="m-3"
-                  >
-                    Edit me
-                  </span>
-                  <span
-                    onClick={() => deleteAlbum(item)}
-                    style={{ cursor: "pointer", textDecoration: "underline" }}
-                    className="m-3"
-                  >
-                    DeleteMe
-                  </span>
-                </li>
-              );
-            })}
-        </ul>
+        {albumQuery.data && albumQuery.data.length > 0 ? (
+          <div>
+            <h3 className="my-3">Your Albums</h3>
+            <AlbumsList albums={albumQuery?.data} />
+          </div>
+        ) : (
+          <h3 className="my-3">No albums here yet ...</h3>
+        )}
       </Container>
       <InputModal
         handleSubmit={handleSubmit}
         show={show}
-        handleClose={handleClose}
+        handleClose={closeModal}
         input={input}
         setInput={setInput}
       />

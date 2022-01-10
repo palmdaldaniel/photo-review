@@ -23,11 +23,11 @@ const useAlbum = (params = {}) => {
 
   const albumColRef = collection(db, "albums");
 
-  const queryKey = params.isSingleAlbum
+  const queryKey = params.onAlbumPage
     ? ["album", params.albumId]
     : ["albums", user.uid];
 
-  const queryRef = params.isSingleAlbum
+  const queryRef = params.onAlbumPage
     ? // gets single album
       query(albumColRef, where("albumId", "==", params.albumId))
     : // gets all albums for specific owner
@@ -78,23 +78,15 @@ const useAlbum = (params = {}) => {
     }
   };
 
-  // Step 1: Simplest version - but no they stay in the image bucket.
-  // 1. Recieve albumId
-  // 2. Find all Images with that album id
-  // 3. Remove album from col
-  // 4. remove image documents with that specific album id
-  // recieve albumId
-  // query all images +
 
-  // Stepp 2: Remove images from bucket if no other album is using it.
-  // 1. Find all images with that albumId x
-  // 2. For every images make a query to see if it exist in another album x
-  // 3. If so don't remove image. x
-  // 4. If not remove the image from the bucket. x
 
-  const deleteAlbumById = async ({ albumId, _id }) => {
+  const deleteAlbumById = async ({ documentId, albumId  }) => {
+    
+
+    console.log(documentId, albumId )
+  
     // another functino
-    deleteAlbumDocAndImages(_id, albumId);
+    deleteAlbumDocAndImages(documentId, albumId);
 
     return;
 

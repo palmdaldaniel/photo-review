@@ -10,4 +10,15 @@ const updateImage = (selected, params) => {
   return tempArray;
 };
 
-export { updateImage };
+const formattedDate = (created, edited) => {
+  const creationDate =
+    created !== null &&
+    created.toDate().toLocaleString("en-GB", { timeZone: "UTC" });
+  const updated =
+    edited !== null &&
+    edited.toDate().toLocaleString("en-GB", { timeZone: "UTC" });
+
+  return [creationDate, updated]; 
+};
+
+export { updateImage, formattedDate };

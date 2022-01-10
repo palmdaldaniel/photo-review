@@ -85,3 +85,14 @@ flex-direction: column;
   opacity: 0.5;
 
 }
+
+
+.edit-span {
+  font-weight: bolder;
+  font-size: 12px;
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
