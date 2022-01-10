@@ -1,3 +1,11 @@
+/**
+ *  Skapa en useBucket för att ta bort bilder
+ * 
+ */
+
+
+
+
 import {
   collection,
   addDoc,
@@ -16,10 +24,13 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
+import useCollection from "./useCollection"
+
 
 const useAlbum = (params = {}) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const { deleteAlbumDoc } = useCollection()
 
   const albumColRef = collection(db, "albums");
 
@@ -47,18 +58,15 @@ const useAlbum = (params = {}) => {
 
   const createAlbum = async (name) => {
     const uuid = uuidv4();
-    const albumColref = collection(db, "albums");
 
-    try {
-      await addDoc(albumColref, {
+    try { 
+      await addDoc(albumColRef, {
         albumId: uuid,
         albumName: name,
         created: serverTimestamp(),
         edited: serverTimestamp(),
         owner: user.uid,
       });
-
-      console.log("i am here");
 
       // when all is good and well
       navigate(`/albums/${uuid}`);
@@ -81,12 +89,8 @@ const useAlbum = (params = {}) => {
 
 
   const deleteAlbumById = async ({ documentId, albumId  }) => {
-    
-
-    console.log(documentId, albumId )
-  
-    // another functino
-    deleteAlbumDocAndImages(documentId, albumId);
+      
+      await deleteAlbumDoc(documentId, albumId)
 
     return;
 
@@ -112,43 +116,7 @@ const useAlbum = (params = {}) => {
     });
   };
 
-  // function for removing albums col and images attached to it.
-
-  const deleteAlbumDocAndImages = async (documentId, albumId) => {
-    console.log("documentId", documentId);
-    console.log("albumId", albumId);
-    // get rid of album doc
-
-     try {
-      await deleteDoc(doc(db, "albums", documentId));
-      console.log("profit, deleted document with id:>>", documentId);
-    } catch (error) {
-      console.log("error", error.message);
-    }
  
-    // get rid of every image attached to that doc
-
-    const anotherRef = collection(db, "images");
-    const anotherQueryRef = query(anotherRef, where("albumId", "==", albumId));
-    const mathingImages = await getDocs(anotherQueryRef);
-
-    mathingImages.forEach((doc) => {
-      deleteSingleImageDocument(doc.id);
-    });
-  };
-
-  const deleteSingleImageDocument = async (id) => {
-
-
-    try {
-      await deleteDoc(doc(db, "images", id));
-
-      console.log("profit, deleted document with id:>>", id);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   const findAlbums = async (path) => {
     const arr = [];
 

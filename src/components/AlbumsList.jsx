@@ -4,12 +4,10 @@ import { Link } from "react-router-dom";
 import { formattedDate } from "../utils/helpers";
 import InputModal from "./InputModal";
 import useModal from "../hooks/useModal";
-import useAlbum from "../hooks/useAlbum";
 
-const AlbumsList = ({ albums }) => {
+
+const AlbumsList = ({ albums, deleteAlbumById }) => {
   const [openModal, closeModal, show] = useModal();
-
-  const {deleteAlbumById} = useAlbum()
   const [docInfo, setDocInfo] = useState();
 
   const getCredentialsAndOpenModal = (documentId, albumId) => {

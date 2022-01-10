@@ -2,11 +2,9 @@ import { useState } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useAuthContext } from "../contexts/AuthContext";
 import InputModal from "../components/InputModal";
-import useAlbum from "../hooks/useAlbum";
 import AlbumsList from "../components/AlbumsList";
 import useModal from "../hooks/useModal";
-
-
+import useAlbum from "../hooks/useAlbum";
 
 const HomePage = () => {
   const [input, setInput] = useState("");
@@ -15,12 +13,14 @@ const HomePage = () => {
 
   const { user } = useAuthContext();
 
-  const { createAlbum, albumQuery } = useAlbum();
+  const {deleteAlbumById, createAlbum, albumQuery } = useAlbum();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createAlbum(input.trim);
+    createAlbum(input.trim());
   };
+
+  
 
   if (albumQuery.isLoading) return <h3>Loading ...</h3>;
   if (albumQuery.isError) return <h3>Something went wrong</h3>;
@@ -38,7 +38,10 @@ const HomePage = () => {
         {albumQuery.data && albumQuery.data.length > 0 ? (
           <div>
             <h3 className="my-3">Your Albums</h3>
-            <AlbumsList albums={albumQuery?.data} />
+            <AlbumsList
+              deleteAlbumById={deleteAlbumById}
+              albums={albumQuery?.data}
+            />
           </div>
         ) : (
           <h3 className="my-3">No albums here yet ...</h3>
