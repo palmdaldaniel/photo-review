@@ -1,6 +1,4 @@
 import { Row, Col, Button } from "react-bootstrap";
-import ImageCard from "../components/ImageCard";
-import ThumbNail from "../components/ThumbNail";
 import { SRLWrapper } from "simple-react-lightbox";
 
 const ImageList = ({ isLoading, isError, data, isThumbnail, handleClick }) => {
@@ -12,22 +10,18 @@ const ImageList = ({ isLoading, isError, data, isThumbnail, handleClick }) => {
       <SRLWrapper>
         <Row>
           {data &&
-            data.map((item, i) => {
+            data.map((item) => {
               return (
-                <Col xs={12} sm={6} md={4} key={item._id}>
-                  {isThumbnail ? (
-                    <ThumbNail key={item._id} item={item} />
-                  ) : (
-                    <div>
-                      <ImageCard item={item} key={item._id} />
-                      <Button
-                        variant="danger"
-                        onClick={() => handleClick(item._id, item.path)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  )}
+                <Col xs={12} sm={4} md={3} key={item._id}>
+                  <div className="img-wrapper">
+                    <img src={item.url} alt="" />
+                  </div>
+                  <Button
+                      variant="danger"
+                      onClick={() => handleClick(item._id, item.path)}
+                    >
+                      Delete me
+                    </Button>
                 </Col>
               );
             })}

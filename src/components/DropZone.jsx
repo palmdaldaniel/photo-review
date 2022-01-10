@@ -47,9 +47,7 @@ const Dropzone = ({ albumId }) => {
         )}
       </div>
       {fileUploader.progressArray &&
-        fileUploader.progressArray.map((item, i) => {
-
-  
+        fileUploader.progressArray.map((item, i) => {  
           return (
             <ProgressBar
               key={i}

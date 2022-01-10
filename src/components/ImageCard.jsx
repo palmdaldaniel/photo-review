@@ -1,17 +1,22 @@
-import { Card, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
-const ImageCard = ({ item }) => {
-
+const ImageCard = ({ item, handleClick, isLiked }) => {
   return (
-    <Card style={{ width: "100%" }} className="my-1">
-      <Card.Header>{item.uuid}</Card.Header>
-      <Card.Img variant="top" src={item.url} />
-      <Card.Body>
-        <Card.Text>{item.name}</Card.Text>
-
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
+    <>
+      <p>{isLiked ? "liked" : "disliked"}</p>
+      <div
+        onClick={() => handleClick(item)}
+        className={`selected img-wrapper ${isLiked ? "liked" : "disliked"}`}
+      >
+        <img src={item.image.url} alt="" />
+      </div>
+      {/*  <Button
+        variant="danger"
+        // for deleting img --  onClick={() => handleClick(item._id, item.path)}
+      >
+        Delete me
+      </Button> */}
+    </>
   );
 };
 

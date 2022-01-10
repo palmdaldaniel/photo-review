@@ -1,24 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import usePreview from "../hooks/usePreview.js";
-import { updateImage } from '../utils/helpers.js'
 
-const Selector = ({ data }) => {
+const Selector = ({ data, selected, setSelected, setStep, }) => {
   const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
-  const [total, setTotal] = useState(0);
-
-  const {createAlbum} = usePreview()
-
-  useEffect(() => {
-    if (selected) {
-
-      const totVal = selected.filter((item) => item.liked === true).length;
-
-      setTotal(totVal);
-    }
-  }, [selected]);
 
   const reviewImage = (params) => {
     setSelected((prev) => {
@@ -39,30 +25,20 @@ const Selector = ({ data }) => {
     });
   };
 
-  const editImage = (params) => {
-
-    const modifiedArray = updateImage(selected, params)
-
-    setSelected([...modifiedArray]);
-  };
-
-  const reviewFinished = () => {
-
-
-    const imageToKeep  = selected.filter(item => item.liked === true)
-
-    createAlbum(data[0].owner, imageToKeep)
-  }
+ 
+  const reviewFinished = () => setStep(3);
 
   return (
     <Container>
       {data && (
         <>
-          <p>
-            {total} of {data.length} kept
-          </p>
-          <h1>Select your images</h1>
-          <p>{data[index].uuid}</p>
+          <h3 className="text-center">Hot or not?</h3>
+          <div className="selecter-wrapper">
+          <div className="img-wrapper my-2">
+          <img src={data[index].url} alt="" />
+          </div>
+
+
           {!isSelected ? (
             <div className="d-flex">
               <Button
@@ -74,10 +50,12 @@ const Selector = ({ data }) => {
                 }
                 disabled={isSelected}
                 className="m-1"
+                variant="danger"
               >
-                💣
+              🧊
               </Button>
               <Button
+              variant="success"
                 onClick={() =>
                   reviewImage({
                     image: data[index],
@@ -87,38 +65,17 @@ const Selector = ({ data }) => {
                 disabled={isSelected}
                 className="m-1"
               >
-                🚀
+             🔥
               </Button>
             </div>
           ) : (
-            <Button onClick={reviewFinished} variant="success">Finished Reviewing</Button>
+            <Button onClick={reviewFinished} variant="success">
+              Finished Reviewing
+            </Button>
           )}
+          </div>
         </>
       )}
-
-      <div>
-        <ul>
-          {selected?.map((item, i) => {
-          const textColor = item.liked ? "green" : "red"
-            
-            return (
-              <li
-                onClick={() =>
-                  editImage({
-                    image: item.image,
-                    liked: !item.liked,
-                    edited: true,
-                  })
-                }
-                key={i}
-                style={{ color: textColor }}
-              >
-                {item.image.uuid}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
     </Container>
   );
 };

@@ -43,3 +43,45 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+
+.img-wrapper {
+  height: 100px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  img {
+    height: 100%;
+  }
+}
+
+.album-handler {
+  display: flex;
+flex-direction: column;
+
+  &-button {
+    margin-bottom: 10px;
+  }
+}
+
+.selecter-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.selected {
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+
+
+.disliked {
+  opacity: 0.5;
+
+}
