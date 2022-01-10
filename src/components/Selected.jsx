@@ -3,13 +3,10 @@ import ImageCard from "./ImageCard";
 import { Row, Col, Button, Alert } from "react-bootstrap";
 import usePreview from "../hooks/usePreview.js";
 
-const Selected = ({ selected, setSelected, total, owner }) => {
+const Selected = ({ selected, total, owner, editImage }) => {
   const { createAlbum, isLoading, message } = usePreview();
-  const editImage = (item) => {
-    const params = { image: item.image, liked: !item.liked, edited: true };
-    const modifiedArray = updateImage(selected, params);
-    setSelected([...modifiedArray]);
-  };
+
+
 
   const createNewAlbumFromSelection = () => {
     const imageToKeep = selected.filter((item) => item.liked === true); 
@@ -33,7 +30,7 @@ const Selected = ({ selected, setSelected, total, owner }) => {
                   <ImageCard
                     isLiked={isLiked}
                     item={item}
-                    handleClick={editImage}
+                    handleClick={() => editImage(item)} 
                   />
                 </Col>
               );
@@ -45,7 +42,7 @@ const Selected = ({ selected, setSelected, total, owner }) => {
             variant="success"
             onClick={createNewAlbumFromSelection}
           >
-            Finished reviewing
+            Create new album from selection
           </Button>
         </>
       )}

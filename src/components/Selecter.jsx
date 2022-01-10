@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Container } from "react-bootstrap";
-import usePreview from "../hooks/usePreview.js";
 
-const Selector = ({ data, selected, setSelected, setStep, }) => {
+
+const Selector = ({ data, nextStep, handleSelectedImage }) => {
   const [index, setIndex] = useState(0);
   const [isSelected, setIsSelected] = useState(false);
 
   const reviewImage = (params) => {
-    setSelected((prev) => {
-      if (!prev) {
-        return [params];
-      }
 
-      return [...prev, { image: params.image, liked: params.liked }];
-    });
-
+    // add selected image to selected array
+    handleSelectedImage(params)
+    
+    // display next image
     setIndex((prev) => {
       if (index + 1 === data.length) {
         setIsSelected(true);
@@ -25,21 +22,18 @@ const Selector = ({ data, selected, setSelected, setStep, }) => {
     });
   };
 
- 
-  const reviewFinished = () => setStep(3);
+  const reviewFinished = () => nextStep(3);
 
   return (
     <Container>
-      {data && (
+      {data && !isSelected ? (
         <>
           <h3 className="text-center">Hot or not?</h3>
           <div className="selecter-wrapper">
-          <div className="img-wrapper my-2">
-          <img src={data[index].url} alt="" />
-          </div>
+            <div className="img-wrapper my-2">
+              <img src={data[index].url} alt="" />
+            </div>
 
-
-          {!isSelected ? (
             <div className="d-flex">
               <Button
                 onClick={() =>
@@ -52,10 +46,10 @@ const Selector = ({ data, selected, setSelected, setStep, }) => {
                 className="m-1"
                 variant="danger"
               >
-              🧊
+                🧊
               </Button>
               <Button
-              variant="success"
+                variant="success"
                 onClick={() =>
                   reviewImage({
                     image: data[index],
@@ -65,16 +59,17 @@ const Selector = ({ data, selected, setSelected, setStep, }) => {
                 disabled={isSelected}
                 className="m-1"
               >
-             🔥
+                🔥
               </Button>
             </div>
-          ) : (
-            <Button onClick={reviewFinished} variant="success">
-              Finished Reviewing
-            </Button>
-          )}
           </div>
         </>
+      ) : (
+        <div className="selecter-wrapper">
+        <Button onClick={reviewFinished}>
+          Go to selection
+        </Button>
+        </div>
       )}
     </Container>
   );

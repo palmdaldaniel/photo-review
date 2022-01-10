@@ -14,14 +14,21 @@ import Selected from "../components/Selected";
 import UrlModal from "../components/UrlModal";
 import { useState, useEffect } from "react";
 import Selecter from "../components/Selecter";
+import useSelect from "../hooks/useSelect";
 
 const AlbumPage = () => {
-  const [selected, setSelected] = useState();
+  const {
+    step,
+    nextStep,
+    total,
+    selected,
+    resetSelection,
+    handleSelectedImage,
+    editImage,
+  } = useSelect();
+
   const [show, setShow] = useState(false);
-  const [imageId, setImageId] = useState();
-  const [isSelecting, setIsSelecting] = useState(true);
-  const [step, setStep] = useState(1)
-  const [total, setTotal] = useState(0);
+
   const { pathname } = useLocation();
   const { albumId } = useParams();
 
@@ -29,16 +36,6 @@ const AlbumPage = () => {
     onAlbumPage: true,
     albumId,
   });
-
-  useEffect(() => {
-   
-    
-    if (selected) {
-      const totVal = selected.filter((item) => item.liked === true).length;
-      setTotal(totVal);
-    }
-  }, [selected]);
-
 
   // deleteSingleimage
   const { deleteDocument } = useImage(albumId);
@@ -50,21 +47,12 @@ const AlbumPage = () => {
 
   const deleteImage = (id, path) => deleteDocument(id, path);
 
-
   // reset users selecting flow.
-  const resetSelection = () => {
-    setStep(1);
-    setSelected(null);
-  };
 
-  const nextStep = () => {
-    setStep(2);
-  };
+  const reviewPhotos = () => nextStep(2);
 
   if (albumQuery.isLoading) return <h1>Loding ...</h1>;
   if (albumQuery.isError) return <h1>{`${album.error}`}</h1>;
-
-
 
   return (
     <Container>
@@ -86,11 +74,11 @@ const AlbumPage = () => {
               Generate url
             </Button>
             <Button
-              onClick={step === 1 ? nextStep : resetSelection}
+              onClick={step === 1 ? reviewPhotos : resetSelection}
               variant={step !== 1 ? "danger" : "success"}
               className="album-handler-button"
             >
-              {step !== 1 ? "Stop selecting" : "Select Images"}
+              {step !== 1 ? "Reset Selection" : "Select Images"}
             </Button>
           </div>
           <UrlModal show={show} handleClose={handleClose} url={pathname} />
@@ -99,15 +87,27 @@ const AlbumPage = () => {
         {step === 1 && (
           <>
             <Dropzone albumId={albumId} />{" "}
-            <ImageList handleClick={deleteImage} {...images} />{" "}
+            <ImageList handleClick={deleteImage} {...images} />
           </>
         )}
 
         {step === 2 && (
-          <Selecter selected={selected} setSelected={setSelected} {...images} setStep={setStep} />
+          <Selecter
+            selected={selected}
+            {...images}
+            nextStep={nextStep}
+            handleSelectedImage={handleSelectedImage}
+          />
         )}
 
-        {step === 3 && <Selected  owner={albumQuery.data[0].owner} total={total} selected={selected} setSelected={setSelected}  /> }
+        {step === 3 && (
+          <Selected
+            owner={albumQuery.data[0].owner}
+            total={total}
+            selected={selected}
+            editImage={editImage}
+          />
+        )}
       </>
     </Container>
   );
