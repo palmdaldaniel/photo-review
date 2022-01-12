@@ -5,8 +5,6 @@ import useImages from "../hooks/useImages";
 import useImage from "../hooks/useImage";
 import ImageList from "../components/ImageList";
 import Dropzone from "../components/DropZone";
-// adding a comment
-
 import Selected from "../components/Selected";
 import UrlModal from "../components/UrlModal";
 import { useState } from "react";
@@ -16,7 +14,7 @@ import InputModal from "../components/InputModal";
 
 const AlbumPage = () => {
   const [show, setShow] = useState(false);
-  const [displayUrl, setDisplayUrl] = useState(false);
+  const [showUrl, setShowUrl] = useState(false);
   const [input, setInput] = useState("");
 
   const { pathname } = useLocation();
@@ -43,7 +41,7 @@ const AlbumPage = () => {
 
   const handleClose = (param) => {
     if (param) {
-      setDisplayUrl(false);
+      setShowUrl(false);
     } else {
       setShow(false);
     }
@@ -51,7 +49,7 @@ const AlbumPage = () => {
   
   const handleShow = (param) => {
     if (param) {
-      setDisplayUrl(true);
+      setShowUrl(true);
     } else {
       setShow(true);
     }
@@ -124,7 +122,7 @@ const AlbumPage = () => {
           )}
         </div>
 
-        <UrlModal show={displayUrl} handleClose={handleClose} url={pathname} />
+        <UrlModal show={showUrl} handleClose={handleClose} url={pathname} />
       </div>
 
       {step === 1 && (
