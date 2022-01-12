@@ -49,20 +49,12 @@ const useImage = () => {
   console.log('lets go a head and delete')
 
   const imageRef = ref(storage, path);
-
   try {
-
     await deleteObject(imageRef)
-
     console.log('profit, image deleted with path ::>', path)
-    
   } catch (error) {
-
     console.log('error', error.message)
-    
   }
-
-
 };
 
   return { deleteDocument };

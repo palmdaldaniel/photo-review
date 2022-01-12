@@ -1,10 +1,9 @@
 import { Button, Table } from "react-bootstrap";
-import { useState } from 'react'
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formattedDate } from "../utils/helpers";
 import InputModal from "./InputModal";
 import useModal from "../hooks/useModal";
-
 
 const AlbumsList = ({ albums, deleteAlbumById }) => {
   const [openModal, closeModal, show] = useModal();
@@ -15,9 +14,9 @@ const AlbumsList = ({ albums, deleteAlbumById }) => {
     openModal();
   };
 
-  const deleteAlbum = () => {
-    deleteAlbumById(docInfo)
-    closeModal()
+  const deleteAlbum =  () => {
+     deleteAlbumById(docInfo);
+    closeModal();
   };
 
   return (

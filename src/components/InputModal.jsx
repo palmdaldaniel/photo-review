@@ -7,7 +7,7 @@ const InputModal = ({
   setInput,
   input,
   isConfirm,
-  deleteAlbum
+  deleteAlbum,
 }) => {
   return (
     <>

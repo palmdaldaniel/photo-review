@@ -37,6 +37,7 @@ const useCollection = () => {
     // find documents from images collection connected the album
     const imgsQueryRef = query(imagesRef, where("albumId", "==", id));
     const result = await getDocs(imgsQueryRef);
+
     try {
       result.forEach(async ({ id }) => {
         const imageId = id;
@@ -47,6 +48,7 @@ const useCollection = () => {
     }
 
     console.log("returning to parent function");
+
   };
 
   return { deleteAlbumDoc };

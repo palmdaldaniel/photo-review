@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Alert } from "react-bootstrap";
 import { useAuthContext } from "../contexts/AuthContext";
 import InputModal from "../components/InputModal";
 import AlbumsList from "../components/AlbumsList";
@@ -13,7 +13,7 @@ const HomePage = () => {
 
   const { user } = useAuthContext();
 
-  const {deleteAlbumById, createAlbum, albumQuery } = useAlbum();
+  const {deleteAlbumById, createAlbum, albumQuery, message } = useAlbum();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +34,7 @@ const HomePage = () => {
         <Button onClick={openModal} variant="success">
           Create New Album
         </Button>
+        {message && <Alert variant="success" className="my-3 text-center">{message}</Alert>}
 
         {albumQuery.data && albumQuery.data.length > 0 ? (
           <div>

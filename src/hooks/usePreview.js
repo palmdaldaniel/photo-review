@@ -17,7 +17,7 @@ const usePreview = () => {
       setIsLoading(true);
       await addDoc(albumColref, {
         albumId: uuid,
-        albumName: owner,
+        albumName: uuid,
         created: serverTimestamp(),
         edited: serverTimestamp(),
         owner,
