@@ -19,6 +19,7 @@ import InputModal from "../components/InputModal";
 
 const AlbumPage = () => {
   const [show, setShow] = useState(false);
+  const [displayUrl, setDisplayUrl] = useState(false);
   const [input, setInput] = useState("");
 
   const { pathname } = useLocation();
@@ -43,8 +44,21 @@ const AlbumPage = () => {
 
   const { deleteDocument } = useImage(albumId);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = (param) => {
+    if (param) {
+      setDisplayUrl(false);
+    } else {
+      setShow(false);
+    }
+  };
+  
+  const handleShow = (param) => {
+    if (param) {
+      setDisplayUrl(true);
+    } else {
+      setShow(true);
+    }
+  };
 
   const deleteImage = (id, path) => deleteDocument(id, path);
 
@@ -84,33 +98,36 @@ const AlbumPage = () => {
             input={input}
             setInput={setInput}
           />
-         
+
           {images.data && (
             <>
-            <p>
-              Total amount:
-              <span style={{ fontWeight: "bolder" }}>{images.data.length}</span>
-            </p>
-           <div className="album-handler">
-           <Button className="album-handler-button" onClick={handleShow}>
-             Generate url
-           </Button>
-           <Button
-             disabled={images.data.length === 0}
-             onClick={step === 1 ? reviewPhotos : resetSelection}
-             variant={step !== 1 ? "danger" : "success"}
-             className="album-handler-button"
-           >
-             {step !== 1 ? "Reset Selection" : "Select Images"}
-           </Button>
-         </div>
-         </>
-         
-         
-         )}
+              <p>
+                Total amount:
+                <span style={{ fontWeight: "bolder" }}>
+                  {images.data.length}
+                </span>
+              </p>
+              <div className="album-handler">
+                <Button
+                  className="album-handler-button"
+                  onClick={() => handleShow("url")}
+                >
+                  Generate url
+                </Button>
+                <Button
+                  disabled={images.data.length === 0}
+                  onClick={step === 1 ? reviewPhotos : resetSelection}
+                  variant={step !== 1 ? "danger" : "success"}
+                  className="album-handler-button"
+                >
+                  {step !== 1 ? "Reset Selection" : "Select Images"}
+                </Button>
+              </div>
+            </>
+          )}
         </div>
-     
-        <UrlModal show={show} handleClose={handleClose} url={pathname} />
+
+        <UrlModal show={displayUrl} handleClose={handleClose} url={pathname} />
       </div>
 
       {step === 1 && (
