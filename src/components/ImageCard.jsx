@@ -10,12 +10,6 @@ const ImageCard = ({ item, handleClick, isLiked }) => {
       >
         <img src={item.image.url} alt="" />
       </div>
-      {/*  <Button
-        variant="danger"
-        // for deleting img --  onClick={() => handleClick(item._id, item.path)}
-      >
-        Delete me
-      </Button> */}
     </>
   );
 };

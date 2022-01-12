@@ -1,22 +1,15 @@
 import {
   collection,
-  addDoc,
-  serverTimestamp,
   query,
   where,
   doc,
-  updateDoc,
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
 
-import { db, storage } from "../firebase";
-import { useAuthContext } from "../contexts/AuthContext";
-import { v4 as uuidv4 } from "uuid";
+import { db } from "../firebase";
 
 const useCollection = () => {
-  const albumsRef = collection(db, "albums");
   const imagesRef = collection(db, "images");
 
   const deleteAlbumDoc = async (documentId, albumId) => {

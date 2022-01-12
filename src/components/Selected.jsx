@@ -6,16 +6,18 @@ import usePreview from "../hooks/usePreview.js";
 const Selected = ({ selected, total, owner, editImage }) => {
   const { createAlbum, isLoading, message } = usePreview();
 
-
-
   const createNewAlbumFromSelection = () => {
-    const imageToKeep = selected.filter((item) => item.liked === true); 
+    const imageToKeep = selected.filter((item) => item.liked === true);
     createAlbum(owner, imageToKeep);
   };
 
   return (
     <div>
-      {message && <Alert className="text-center" variant={message.type}>{message.msg}</Alert>}
+      {message && (
+        <Alert className="text-center" variant={message.type}>
+          {message.msg}
+        </Alert>
+      )}
 
       {!message && (
         <>
@@ -30,7 +32,7 @@ const Selected = ({ selected, total, owner, editImage }) => {
                   <ImageCard
                     isLiked={isLiked}
                     item={item}
-                    handleClick={() => editImage(item)} 
+                    handleClick={() => editImage(item)}
                   />
                 </Col>
               );

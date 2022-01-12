@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { collection, addDoc } from "firebase/firestore";
 import { useAuthContext } from "../contexts/AuthContext";
 
-const variant = ["warning", "success", "danger", 'info'];
+const variant = ["warning", "success", "danger", "info"];
 
 const useUploadFiles = () => {
   const [message, setMessage] = useState(null);
@@ -20,21 +20,16 @@ const useUploadFiles = () => {
     let progressArray = [];
 
     for (let i = 0; i < numberOfImages; i++) {
-      const randomInt = Math.floor(Math.random()*(3+1))
+      const randomInt = Math.floor(Math.random() * (3 + 1));
 
       progressArray.push({
-       progress: 10,
-       variant: variant[randomInt]
+        progress: 10,
+        variant: variant[randomInt],
       });
     }
 
-    setProgressArray(progressArray)
+    setProgressArray(progressArray);
 
-    
-
-  
-
-  
     images.forEach((image, i) => {
       const uuid = uuidv4();
 
@@ -50,10 +45,10 @@ const useUploadFiles = () => {
       fileUploadTask.on(
         "state_changed",
         (snapshot) => {
-          const result =  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          progressArray[i].progress = result
-          setProgressArray([...progressArray])
-      
+          const result =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          progressArray[i].progress = result;
+          setProgressArray([...progressArray]);
         },
         (error) => {
           console.log(error.message);
@@ -82,7 +77,6 @@ const useUploadFiles = () => {
             uuid,
           });
 
-      
           setMessage({
             type: "success",
             msg: "Congrats your file/files are uploaded",
@@ -90,8 +84,6 @@ const useUploadFiles = () => {
         }
       );
     });
-
-    
   };
 
   return { upload, message, progressArray };

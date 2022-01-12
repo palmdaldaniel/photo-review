@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { db, storage } from "../firebase";
 
@@ -6,8 +6,6 @@ const useBucket = () => {
   const colRef = collection(db, "images");
 
   const findRelatedDocuments = async (albumId) => {
-
-  
     const totalImgDocs = [];
 
     const allImages = await getDocs(colRef);
@@ -21,17 +19,16 @@ const useBucket = () => {
 
     currentAlbum.forEach((document) => {
       const foundMatches = totalImgDocs.filter(
-        (item) => item.path === document.path);
+        (item) => item.path === document.path
+      );
 
-    
+      if (foundMatches.length === 1) {
+        deleteFromBucket(foundMatches[0].path);
+      }
 
-        if (foundMatches.length === 1) {
-          deleteFromBucket(foundMatches[0].path);
-        }
-        
-        console.log("no matches to be found");
-      });
-      return
+      console.log("no matches to be found");
+    });
+    return;
   };
 
   const deleteFromBucket = async (path) => {

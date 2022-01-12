@@ -9,7 +9,7 @@ const UrlModal = ({ show, handleClose, url }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <Form.Control type="text" value={'netlifyname' + url} />
+          <Form.Control readOnly type="text" value={'netlifyname' + url} />
         </Modal.Body>
         <Modal.Footer>
           <Button  onClick={handleClose} variant="primary">

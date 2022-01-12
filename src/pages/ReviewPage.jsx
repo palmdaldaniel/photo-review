@@ -16,7 +16,6 @@ const ReviewPage = () => {
     nextStep,
     total,
     selected,
-    setSelected,
     handleSelectedImage,
     editImage,
   } = useSelect();

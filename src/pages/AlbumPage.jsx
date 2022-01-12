@@ -110,7 +110,7 @@ const AlbumPage = () => {
          )}
         </div>
      
-        {/*  <UrlModal show={show} handleClose={handleClose} url={pathname} /> */}
+        <UrlModal show={show} handleClose={handleClose} url={pathname} />
       </div>
 
       {step === 1 && (

@@ -1,12 +1,3 @@
-/**
- *  Delete a document x
- *  Delete images whenevier there is no more album usng this image.
- *   
- 
- * 
- */
-
-import { useFirestoreQueryData } from "@react-query-firebase/firestore";
 import {
   doc,
   deleteDoc,
@@ -15,11 +6,13 @@ import {
   query,
   getDocs,
 } from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
 
-import { storage, db } from "../firebase";
+import { db } from "../firebase";
+import useBucket from "./useBucket";
 
 const useImage = () => {
+  const { deleteFromBucket } = useBucket();
+
   const deleteDocument = async (id, path) => {
     const imagesColRef = collection(db, "images");
     const queryRef = query(imagesColRef, where("path", "==", path));
@@ -32,8 +25,7 @@ const useImage = () => {
 
     if (arr.length === 1) {
       console.log("fire deletefunction");
-
-      deleteImage(path)
+      deleteFromBucket(path);
     }
 
     try {
@@ -43,19 +35,6 @@ const useImage = () => {
       console.log("error", error.message);
     }
   };
-
-  const deleteImage = async (path) => {
-
-  console.log('lets go a head and delete')
-
-  const imageRef = ref(storage, path);
-  try {
-    await deleteObject(imageRef)
-    console.log('profit, image deleted with path ::>', path)
-  } catch (error) {
-    console.log('error', error.message)
-  }
-};
 
   return { deleteDocument };
 };
