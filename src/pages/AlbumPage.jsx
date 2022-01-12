@@ -1,7 +1,3 @@
-/**
- * Generate url to send to customer
- */
-
 import { Container, Button } from "react-bootstrap";
 import { useParams, useLocation } from "react-router-dom";
 import useAlbum from "../hooks/useAlbum";
