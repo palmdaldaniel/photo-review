@@ -9,7 +9,7 @@ const UrlModal = ({ show, handleClose, url }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <Form.Control readOnly type="text" value={'https://cranky-elion-781b13.netlify.app' + url} />
+          <Form.Control readOnly type="text" value={'https://photo-review.vercel.app' + url} />
         </Modal.Body>
         <Modal.Footer>
           <Button  onClick={() => handleClose('url')} variant="primary">
