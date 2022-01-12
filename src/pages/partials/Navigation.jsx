@@ -9,7 +9,7 @@ const Navigation = () => {
   const { user } = useAuthContext();
 
   return (
-    <Navbar bg="dark" variant="dark" expand="md">
+    <Navbar bg="light" variant="light" expand="md">
       <Container>
         <Link to="/" className="navbar-brand">
           Photo Reviewer
