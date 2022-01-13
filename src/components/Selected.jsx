@@ -4,6 +4,7 @@ import { Row, Col, Button, Alert } from "react-bootstrap";
 import usePreview from "../hooks/usePreview.js";
 
 const Selected = ({ selected, total, owner, editImage }) => {
+
   const { createAlbum, isLoading, message } = usePreview();
 
   const createNewAlbumFromSelection = () => {

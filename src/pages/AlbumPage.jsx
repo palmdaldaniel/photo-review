@@ -13,7 +13,7 @@ import Selecter from "../components/Selecter";
 import useSelect from "../hooks/useSelect";
 import InputModal from "../components/InputModal";
 
-const UploadPage = () => {
+const AlbumPage = () => {
   const [show, setShow] = useState(false);
   const [showUrl, setShowUrl] = useState(false);
   const [input, setInput] = useState("");
@@ -36,6 +36,7 @@ const UploadPage = () => {
     albumId,
   });
 
+  console.log(albumQuery);
   const images = useImages(albumId);
 
   const { deleteDocument } = useImage(albumId);
@@ -154,4 +155,4 @@ const UploadPage = () => {
   );
 };
 
-export default UploadPage;
+export default AlbumPage;

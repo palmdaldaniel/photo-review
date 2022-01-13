@@ -5,7 +5,7 @@ import "./App.scss";
 import Navigation from "./pages/partials/Navigation";
 
 //pages
-import UploadPage from "./pages/UploadPage";
+import AlbumPage from "./pages/AlbumPage";
 import HomePage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
@@ -37,7 +37,7 @@ function App() {
           path="/albums/:albumId"
           element={
             <IsProtected redirectTo="/login">
-              <UploadPage />
+              <AlbumPage />
             </IsProtected>
           }
         />

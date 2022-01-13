@@ -1,6 +1,7 @@
 import { Modal, Button, Form } from "react-bootstrap";
 
 const UrlModal = ({ show, handleClose, url }) => {
+  
   return (
     <>
       <Modal show={show} onHide={() => handleClose('url')} centered keyboard={false}>
@@ -9,7 +10,7 @@ const UrlModal = ({ show, handleClose, url }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <Form.Control readOnly type="text" value={'https://photo-review.vercel.app' + url} />
+          <Form.Control readOnly type="text" value={'https://photo-review.vercel.app' + url.replace('albums', 'preview')} />
         </Modal.Body>
         <Modal.Footer>
           <Button  onClick={() => handleClose('url')} variant="primary">

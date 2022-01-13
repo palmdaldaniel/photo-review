@@ -1,12 +1,10 @@
 import ImageList from "../components/ImageList";
 import { Container, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import useAlbum from "../hooks/useAlbum";
 import useImages from "../hooks/useImages";
 import useSelect from "../hooks/useSelect";
 import Selecter from "../components/Selecter";
 import Selected from "../components/Selected";
-
 
 const ReviewPage = () => {
   const { albumId } = useParams();
@@ -20,17 +18,12 @@ const ReviewPage = () => {
     editImage,
   } = useSelect();
 
-  const { albumQuery } = useAlbum({
-    isSingleAlbum: true,
-    albumId,
-  });
-
   const images = useImages(albumId);
 
   const reviewPhotos = () => nextStep(2);
 
-  if (albumQuery.isLoading) return <h1>Loding ...</h1>;
-  if (albumQuery.isError) return <h1>{`${album.error}`}</h1>;
+  if (images.isLoading) return <h1>Loding ...</h1>;
+  if (images.isError) return <h1>{`${images.error}`}</h1>;
 
   return (
     <Container>
@@ -60,7 +53,7 @@ const ReviewPage = () => {
       {/* Show result */}
       {step === 3 && (
         <Selected
-          owner={albumQuery.data[0].owner}
+          owner={images.data[0].owner} 
           total={total}
           selected={selected}
           editImage={editImage}
