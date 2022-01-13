@@ -6,6 +6,7 @@ const useSelect = () => {
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState(null);
 
+
   useMemo(() => {
     if (selected) {
       const totVal = selected.filter((item) => item.liked === true).length;

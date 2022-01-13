@@ -1,4 +1,4 @@
-import { Row, Col, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { SRLWrapper } from "simple-react-lightbox";
 
 const ImageList = ({ isLoading, isError, data, isThumbnail, handleClick }) => {
