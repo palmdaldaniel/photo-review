@@ -53,6 +53,7 @@ const ReviewPage = () => {
       {/* Show result */}
       {step === 3 && (
         <Selected
+          isCustomer={true}
           owner={images.data[0].owner} 
           total={total}
           selected={selected}

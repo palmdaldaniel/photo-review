@@ -1,10 +1,8 @@
-import { updateImage } from "../utils/helpers.js";
 import ImageCard from "./ImageCard";
-import { Row, Col, Button, Alert } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import usePreview from "../hooks/usePreview.js";
 
-const Selected = ({ selected, total, owner, editImage }) => {
-
+const Selected = ({ selected, total, owner, editImage, isCustomer }) => {
   const { createAlbum, isLoading, message } = usePreview();
 
   const createNewAlbumFromSelection = () => {
@@ -15,8 +13,9 @@ const Selected = ({ selected, total, owner, editImage }) => {
   return (
     <div>
       {message && (
-        <Alert className="text-center" variant={message.type}>
-          {message.msg}
+        <Alert className="text-center my-3" variant={message.type}>
+          <p>{message.msg} </p>
+          <p>{isCustomer && 'You may close this page'}</p>
         </Alert>
       )}
 
@@ -25,21 +24,21 @@ const Selected = ({ selected, total, owner, editImage }) => {
           <p className="text-end">
             {total} of {selected.length} kept{" "}
           </p>
-          <Row>
+          <div className="wrapper">
             {selected?.map((item, i) => {
               const isLiked = item.liked ? true : false;
               return (
-                <Col key={i} xs={12} sm={4} md={3}>
-                  <ImageCard
-                    isLiked={isLiked}
-                    item={item}
-                    handleClick={() => editImage(item)}
-                  />
-                </Col>
+                <ImageCard
+                  key={i}
+                  isLiked={isLiked}
+                  item={item}
+                  handleClick={() => editImage(item)}
+                />
               );
             })}
-          </Row>
+          </div>
           <Button
+            style={{ width: "100%" }}
             className="my-3"
             disabled={isLoading}
             variant="success"
