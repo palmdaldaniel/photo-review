@@ -1,4 +1,4 @@
-// add comment 
+// add comment
 import { Container, Button } from "react-bootstrap";
 import { useParams, useLocation } from "react-router-dom";
 import useAlbum from "../hooks/useAlbum";
@@ -36,7 +36,6 @@ const AlbumPage = () => {
     albumId,
   });
 
-  console.log(albumQuery);
   const images = useImages(albumId);
 
   const { deleteDocument } = useImage(albumId);
@@ -48,7 +47,7 @@ const AlbumPage = () => {
       setShow(false);
     }
   };
-  
+
   const handleShow = (param) => {
     if (param) {
       setShowUrl(true);
@@ -75,61 +74,62 @@ const AlbumPage = () => {
     handleShow();
   };
 
-  if (albumQuery.isLoading) return <h1>Loding ...</h1>;
+  if (albumQuery.isLoading) return <h1>Loading ...</h1>;
   if (albumQuery.isError) return <h1>{`${albumQuery.error}`}</h1>;
 
   return (
     <Container>
-      <div className="my-3 d-md-flex justify-content-between align-items-center">
-        <div>
-          <p>
-            Album name: {albumQuery.data[0].albumName}
-            <span onClick={editName} className="mx-3 edit-span">
-              Change my name?
-            </span>
-          </p>
-          <InputModal
-            handleSubmit={handleSubmit}
-            show={show}
-            handleClose={handleClose}
-            input={input}
-            setInput={setInput}
-          />
+      <div className="d-md-flex justify-content-between my-3">
+        <div className="info">
+        <p>
+          Album name: {albumQuery.data[0].albumName}
+          <span onClick={editName} className="mx-3 edit-span">
+            Change my name?
+          </span>
+        </p>
 
-          {images.data && (
-            <>
-              <p>
-                Total amount:
-                <span style={{ fontWeight: "bolder" }}>
-                  {images.data.length}
-                </span>
-              </p>
-              <div className="album-handler">
-                <Button
-                  className="album-handler-button"
-                  onClick={() => handleShow("url")}
-                >
-                  Generate url
-                </Button>
-                <Button
-                  disabled={images.data.length === 0}
-                  onClick={step === 1 ? reviewPhotos : resetSelection}
-                  variant={step !== 1 ? "danger" : "success"}
-                  className="album-handler-button"
-                >
-                  {step !== 1 ? "Reset Selection" : "Select Images"}
-                </Button>
-              </div>
-            </>
-          )}
+        {images.data && (
+          <p>
+            Total amount:
+            <span style={{ fontWeight: "bolder" }}>{images.data.length}</span>
+          </p>
+        )}
         </div>
 
-        <UrlModal show={showUrl} handleClose={handleClose} url={pathname} />
+        {images.data && (
+          <>
+            <div className="album-handler">
+              <Button
+                className="album-handler-button"
+                onClick={() => handleShow("url")}
+              >
+                Generate url
+              </Button>
+              <Button
+                disabled={images.data.length === 0}
+                onClick={step === 1 ? reviewPhotos : resetSelection}
+                variant={step !== 1 ? "danger" : "success"}
+                className="album-handler-button"
+              >
+                {step !== 1 ? "Reset Selection" : "Select Images"}
+              </Button>
+            </div>
+          </>
+        )}
       </div>
+
+      <UrlModal show={showUrl} handleClose={handleClose} url={pathname} />
+      <InputModal
+        handleSubmit={handleSubmit}
+        show={show}
+        handleClose={handleClose}
+        input={input}
+        setInput={setInput}
+      />
 
       {step === 1 && (
         <>
-          <Dropzone albumId={albumId} />{" "}
+          <Dropzone albumId={albumId} />
           <ImageList handleClick={deleteImage} {...images} />
         </>
       )}

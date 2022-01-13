@@ -50,6 +50,7 @@ const Dropzone = ({ albumId }) => {
         fileUploader.progressArray.map((item, i) => {  
           return (
             <ProgressBar
+            className="my-2"
               key={i}
               striped
               variant={item.variant}
